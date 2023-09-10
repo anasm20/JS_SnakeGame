@@ -55,6 +55,7 @@
         let startTime = Date.now();
         let gameInterval;
 
+        // Aktualisiert die Lebensmittelanzeige und die verstrichene Zeit im Spiel.
         function updateStats() {
             document.getElementById('foodCount').textContent = foodCount;
 
@@ -66,12 +67,14 @@
 
         setInterval(updateStats, 1000);
 
+        // Zeigt die Game Over-Nachricht und stoppt das Hauptspiel-Loop.
         function showGameOver() {
             gameOverMessage.style.display = 'block';  // Nachricht anzeigen
             clearInterval(gameInterval);  // Spielloop stoppen
             document.addEventListener('keydown', restartOnEnter);
         }
 
+        // Startet das Spiel neu, wenn die Enter-Taste gedrückt wird.
         function restartOnEnter(e) {
             if (e.keyCode === 13) {  // Enter-Taste
                 gameOverMessage.style.display = 'none';  // Nachricht verbergen
@@ -80,6 +83,7 @@
             }
         }
 
+        // Initialisiert oder startet das Spiel neu.
         function startGame() {
             snake = [{
                 x: 19,
@@ -92,6 +96,7 @@
             gameInterval = setInterval(gameLoop, 200);
         }
 
+        // Platziert zufällig Lebensmittel auf dem Spielfeld.
         function placeFood() {
             let randomX = Math.floor(Math.random() * cols);
             let randomY = Math.floor(Math.random() * rows);
@@ -105,6 +110,7 @@
             ctx.fillRect(x * cellWidth, y * cellHeight, cellWidth - 1, cellHeight - 1);
         }
 
+        // Überprüft, ob die Schlange mit sich selbst kollidiert oder außerhalb des Spielfelds ist.
         function testGameOver() {
             let firstPart = snake[0];
             let otherParts = snake.slice(1);
@@ -121,6 +127,7 @@
             if (snake[0].y > rows - 1) snake[0].y = 0;
         }
 
+        // Hauptspiel-Loop, hier wird die Bewegung der Schlange und die Kollision mit Lebensmitteln behandelt.
         function gameLoop() {
             testGameOver();
 
@@ -156,6 +163,7 @@
             }
         }
 
+        // Behandelt Tastatureingaben für die Bewegungsrichtung der Schlange.
         function keyDown(e) {
             if (e.keyCode == 37 && direction != 'RIGHT') direction = 'LEFT';
             if (e.keyCode == 38 && direction != 'DOWN') direction = 'UP';
@@ -163,6 +171,7 @@
             if (e.keyCode == 40 && direction != 'UP') direction = 'DOWN';
         }
 
+        // Zeichnet alle Spielelemente (Schlange und Lebensmittel) auf dem Canvas.
         function draw() {
             ctx.fillStyle = 'black';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
